@@ -3,392 +3,596 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PHY 103 — Properties of Matter | MCQ Test</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<meta name="description" content="PHY 103 Properties of Matter — Interactive MCQ Self-Test">
+<title>PHY 103 · Properties of Matter · MCQ Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #0A1F44;
-    --gold: #C9A84C;
-    --gold-light: #e8c870;
-    --bg: #05101f;
-    --surface: #0d2040;
-    --surface2: #112650;
-    --text: #d8e8ff;
-    --text-muted: #7a9abf;
-    --correct: #2ecc71;
-    --wrong: #e74c3c;
-    --correct-bg: rgba(46,204,113,0.12);
-    --wrong-bg: rgba(231,76,60,0.12);
-    --radius: 10px;
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A1F44;--navy-mid:#112856;--navy-lt:#1a3870;
+  --gold:#C9A84C;--gold-lt:#DFC070;--gold-dk:#9E7A2A;
+  --cream:#F5F0E8;--cream-dk:#EDE6D6;
+  --ink:#0D1B35;--muted:#6B7FA3;
+  --green:#1FA563;--green-bg:rgba(31,165,99,.1);
+  --red:#D63B3B;--red-bg:rgba(214,59,59,.1);
+  --amber:#D4870A;--amber-bg:rgba(212,135,10,.1);
+  --shadow-sm:0 2px 8px rgba(10,31,68,.12);
+  --shadow-md:0 6px 24px rgba(10,31,68,.16);
+  --shadow-lg:0 16px 48px rgba(10,31,68,.22);
+  --r:12px;--r-sm:8px;
+  --serif:'DM Serif Display',Georgia,serif;
+  --body:'DM Sans',system-ui,sans-serif;
+  --mono:'DM Mono','Courier New',monospace;
+  --ease:200ms cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--cream);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* SCREENS */
+.screen{display:none;min-height:100vh}
+.screen.active{display:flex;flex-direction:column}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-    padding-bottom: 60px;
-  }
+/* ── LANDING ── */
+#screen-landing{background:var(--navy);align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden}
+#screen-landing::before{content:'';position:absolute;width:700px;height:700px;top:-260px;right:-180px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.13) 0%,transparent 70%);pointer-events:none}
+#screen-landing::after{content:'';position:absolute;width:420px;height:420px;bottom:-120px;left:-80px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 70%);pointer-events:none}
 
-  /* ── HEADER ── */
-  header {
-    background: linear-gradient(135deg, var(--navy) 0%, #071830 100%);
-    border-bottom: 2px solid var(--gold);
-    padding: 28px 24px 20px;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
-  }
-  header h1 {
-    font-size: clamp(1.2rem, 4vw, 1.8rem);
-    font-weight: 800;
-    color: var(--gold);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  header p {
-    color: var(--text-muted);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    margin-top: 4px;
-  }
+.lcard{background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.22);border-radius:20px;padding:52px 48px;max-width:560px;width:100%;text-align:center;backdrop-filter:blur(12px);position:relative;z-index:1;animation:fadeUp .55s ease both}
+.lbadge{display:inline-block;font-family:var(--mono);font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.38);border-radius:40px;padding:5px 14px;margin-bottom:22px}
+.lcard h1{font-family:var(--serif);font-size:clamp(1.9rem,5vw,2.7rem);color:#fff;line-height:1.13;margin-bottom:10px}
+.lcard h1 em{color:var(--gold);font-style:italic}
+.lcard>p{color:rgba(255,255,255,.5);font-size:.93rem;line-height:1.65;margin-bottom:36px}
 
-  /* ── PROGRESS BAR ── */
-  #progress-wrap {
-    background: var(--surface);
-    height: 6px;
-    border-radius: 3px;
-    margin: 14px auto 0;
-    max-width: 500px;
-    overflow: hidden;
-  }
-  #progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--gold), var(--gold-light));
-    transition: width 0.4s ease;
-    border-radius: 3px;
-  }
-  #progress-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-top: 6px;
-    text-align: center;
-  }
+.cfg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;text-align:left}
+.cfg-full{grid-column:1/-1}
+.cfg-group label{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.cfg-group select{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(201,168,76,.28);border-radius:var(--r-sm);color:#fff;font-family:var(--body);font-size:.9rem;padding:10px 36px 10px 12px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23C9A84C' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer;transition:border-color var(--ease),background var(--ease)}
+.cfg-group select:hover,.cfg-group select:focus{border-color:var(--gold);outline:none;background-color:rgba(255,255,255,.11)}
+.cfg-group select option{background:var(--navy-mid);color:#fff}
 
-  /* ── LAYOUT ── */
-  main {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 30px 16px 20px;
-  }
+.timer-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.18);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:28px;cursor:pointer}
+.timer-row label{font-size:.85rem;color:rgba(255,255,255,.65);flex:1;cursor:pointer}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.ttrack{position:absolute;inset:0;background:rgba(255,255,255,.15);border-radius:11px;cursor:pointer;transition:background var(--ease)}
+.toggle input:checked+.ttrack{background:var(--gold)}
+.ttrack::after{content:'';position:absolute;left:3px;top:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform var(--ease)}
+.toggle input:checked+.ttrack::after{transform:translateX(18px)}
 
-  /* ── CONTROLS ── */
-  .controls {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 28px;
-  }
-  .controls select, .controls button {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.78rem;
-    padding: 9px 16px;
-    border-radius: var(--radius);
-    border: 1px solid var(--gold);
-    background: var(--surface);
-    color: var(--text);
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-  }
-  .controls button:hover, .controls select:hover {
-    background: var(--gold);
-    color: var(--navy);
-  }
-  .controls button.primary {
-    background: var(--gold);
-    color: var(--navy);
-    font-weight: 700;
-    border-color: var(--gold);
-  }
-  .controls button.primary:hover {
-    background: var(--gold-light);
-  }
+.btn-start{width:100%;background:var(--gold);color:var(--navy);font-family:var(--body);font-weight:600;font-size:1rem;letter-spacing:.02em;padding:15px 24px;border:none;border-radius:var(--r);cursor:pointer;transition:background var(--ease),transform var(--ease),box-shadow var(--ease);box-shadow:0 4px 20px rgba(201,168,76,.35)}
+.btn-start:hover{background:var(--gold-lt);transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,168,76,.45)}
+.btn-start:active{transform:translateY(0)}
+.lmeta{margin-top:20px;font-size:.73rem;color:rgba(255,255,255,.28);font-family:var(--mono)}
 
-  /* ── QUESTION CARD ── */
-  .q-card {
-    background: var(--surface);
-    border: 1px solid rgba(201,168,76,0.18);
-    border-radius: var(--radius);
-    padding: 22px 24px;
-    margin-bottom: 18px;
-    transition: border-color 0.3s;
-    position: relative;
-  }
-  .q-card.answered-correct {
-    border-color: var(--correct);
-    background: var(--correct-bg);
-  }
-  .q-card.answered-wrong {
-    border-color: var(--wrong);
-    background: var(--wrong-bg);
-  }
-  .q-card.skipped {
-    border-color: #888;
-    opacity: 0.7;
-  }
+/* ── TOP BAR ── */
+.topbar{position:sticky;top:0;z-index:200;background:var(--navy);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:0 20px;height:56px;box-shadow:var(--shadow-md);flex-shrink:0}
+.topbar-title{font-family:var(--serif);font-size:.95rem;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-title span{color:var(--gold)}
+.prog-track{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold-dk),var(--gold-lt));border-radius:2px;width:0%;transition:width .4s ease}
+.tb-right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.stat-pill{font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.55);white-space:nowrap}
+.stat-pill strong{color:var(--gold)}
+#timer-disp{font-family:var(--mono);font-size:.82rem;color:var(--gold);background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.28);border-radius:6px;padding:4px 10px;min-width:66px;text-align:center;display:none}
+#timer-disp.warn{color:var(--red);border-color:rgba(214,59,59,.5);background:rgba(214,59,59,.1);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
 
-  .q-number {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--gold);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .q-text {
-    font-size: 0.97rem;
-    line-height: 1.6;
-    color: var(--text);
-    margin-bottom: 16px;
-    font-weight: 600;
-  }
+/* ── TEST BODY ── */
+.test-body{flex:1;max-width:760px;margin:0 auto;width:100%;padding:28px 20px 120px}
 
-  /* ── OPTIONS ── */
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .opt-btn {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    background: var(--surface2);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 8px;
-    padding: 11px 14px;
-    cursor: pointer;
-    transition: all 0.18s;
-    text-align: left;
-    width: 100%;
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-  .opt-btn:hover:not(:disabled) {
-    border-color: var(--gold);
-    background: rgba(201,168,76,0.1);
-  }
-  .opt-btn .opt-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--gold);
-    min-width: 18px;
-    padding-top: 1px;
-  }
-  .opt-btn.selected {
-    border-color: #5b9bd5;
-    background: rgba(91,155,213,0.15);
-  }
-  .opt-btn.correct {
-    border-color: var(--correct) !important;
-    background: rgba(46,204,113,0.18) !important;
-    color: #a8f0c0;
-  }
-  .opt-btn.wrong {
-    border-color: var(--wrong) !important;
-    background: rgba(231,76,60,0.18) !important;
-    color: #f0b0a8;
-  }
-  .opt-btn.reveal-correct {
-    border-color: var(--correct) !important;
-    background: rgba(46,204,113,0.08) !important;
-  }
-  .opt-btn:disabled {
-    cursor: default;
-  }
+/* ── Q CARD ── */
+.qcard{background:#fff;border:1.5px solid rgba(10,31,68,.08);border-radius:var(--r);padding:28px;margin-bottom:16px;box-shadow:var(--shadow-sm);transition:border-color var(--ease),box-shadow var(--ease);animation:fadeUp .32s ease both}
+.qcard:hover{box-shadow:var(--shadow-md)}
+.qcard.sc{border-color:var(--green);background:#f6fdf9}
+.qcard.sw{border-color:var(--red);background:#fdf6f6}
+.qcard.ss{border-color:#ccc;background:#fafafa;opacity:.75}
 
-  /* ── FEEDBACK BADGE ── */
-  .feedback {
-    display: none;
-    margin-top: 12px;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-family: 'Space Mono', monospace;
-  }
-  .feedback.show { display: block; }
-  .feedback.correct { background: rgba(46,204,113,0.15); color: #5ee89e; }
-  .feedback.wrong   { background: rgba(231,76,60,0.15);  color: #f08080; }
+.qhdr{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.qnum{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dk);background:var(--cream-dk);border-radius:4px;padding:3px 9px;flex-shrink:0}
+.qicon{font-size:1.15rem;line-height:1}
+.qtext{font-size:.97rem;font-weight:500;line-height:1.65;color:var(--ink);margin-bottom:18px;white-space:pre-line}
 
-  /* ── RESULT BADGE ── */
-  .result-icon {
-    position: absolute;
-    top: 14px;
-    right: 16px;
-    font-size: 1.2rem;
-  }
+/* ── OPTIONS ── */
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:12px;width:100%;padding:12px 16px;background:var(--cream);border:1.5px solid rgba(10,31,68,.07);border-radius:var(--r-sm);cursor:pointer;text-align:left;font-family:var(--body);font-size:.9rem;line-height:1.5;color:var(--ink);transition:all var(--ease)}
+.opt:hover:not(:disabled){border-color:var(--navy-lt);background:var(--cream-dk);transform:translateX(2px)}
+.opt:disabled{cursor:default;transform:none!important}
+.okey{font-family:var(--mono);font-size:.7rem;font-weight:500;color:var(--muted);background:var(--cream-dk);border-radius:4px;min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all var(--ease)}
+.opt.sel{border-color:var(--navy);background:rgba(10,31,68,.05)}
+.opt.sel .okey{background:var(--navy);color:#fff}
+.opt.oc{border-color:var(--green)!important;background:var(--green-bg)!important}
+.opt.oc .okey{background:var(--green);color:#fff}
+.opt.ow{border-color:var(--red)!important;background:var(--red-bg)!important}
+.opt.ow .okey{background:var(--red);color:#fff}
+.opt.ox{border-color:var(--green)!important;background:var(--green-bg)!important}
+.opt.ox .okey{background:var(--green);color:#fff}
 
-  /* ── SCOREBOARD ── */
-  #scoreboard {
-    background: var(--surface);
-    border: 2px solid var(--gold);
-    border-radius: var(--radius);
-    padding: 28px 28px;
-    margin-bottom: 30px;
-    text-align: center;
-    display: none;
-  }
-  #scoreboard h2 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--gold);
-    margin-bottom: 10px;
-  }
-  #scoreboard .score-big {
-    font-family: 'Space Mono', monospace;
-    font-size: 3rem;
-    color: var(--text);
-    margin: 6px 0;
-  }
-  #scoreboard .score-sub {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-  .score-grid {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 18px;
-    flex-wrap: wrap;
-  }
-  .score-item { text-align: center; }
-  .score-item .val {
-    font-family: 'Space Mono', monospace;
-    font-size: 1.4rem;
-  }
-  .score-item .lbl {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .val.green { color: var(--correct); }
-  .val.red   { color: var(--wrong); }
-  .val.grey  { color: var(--text-muted); }
+/* feedback */
+.qfb{display:none;margin-top:12px;padding:9px 14px;border-radius:var(--r-sm);font-size:.81rem;font-family:var(--mono);align-items:center;gap:8px}
+.qfb.show{display:flex}
+.qfb.c{background:var(--green-bg);color:var(--green)}
+.qfb.w{background:var(--red-bg);color:var(--red)}
+.qfb.s{background:var(--amber-bg);color:var(--amber)}
 
-  /* ── EMPTY / LOADING ── */
-  #empty {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 60px 20px;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.85rem;
-  }
+/* ── ACTION BAR ── */
+.abar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:#fff;border-top:1px solid rgba(10,31,68,.09);padding:12px 20px;display:flex;justify-content:center;gap:10px;box-shadow:0 -4px 20px rgba(10,31,68,.08)}
+.btn{font-family:var(--body);font-weight:600;font-size:.88rem;padding:11px 22px;border-radius:var(--r-sm);border:none;cursor:pointer;transition:all var(--ease);white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--navy);color:#fff;box-shadow:var(--shadow-sm)}
+.btn-primary:hover{background:var(--navy-mid);box-shadow:var(--shadow-md)}
+.btn-gold{background:var(--gold);color:var(--navy);box-shadow:0 4px 16px rgba(201,168,76,.3)}
+.btn-gold:hover{background:var(--gold-lt)}
+.btn-ghost{background:transparent;color:var(--muted);border:1.5px solid rgba(10,31,68,.12)}
+.btn-ghost:hover{border-color:var(--navy);color:var(--navy)}
+.btn-danger{background:transparent;color:var(--red);border:1.5px solid rgba(214,59,59,.28)}
+.btn-danger:hover{background:var(--red-bg)}
 
-  @media (max-width: 540px) {
-    .q-card { padding: 16px 14px; }
-    .opt-btn { font-size: 0.84rem; padding: 10px 11px; }
-    header h1 { font-size: 1rem; }
-  }
+/* scroll top */
+#scroll-top{position:fixed;bottom:80px;right:20px;background:var(--navy);color:var(--gold);border:none;border-radius:50%;width:40px;height:40px;font-size:1.1rem;cursor:pointer;box-shadow:var(--shadow-md);display:none;align-items:center;justify-content:center;z-index:300;transition:all var(--ease)}
+#scroll-top:hover{transform:translateY(-2px)}
+#scroll-top.show{display:flex}
+
+/* ── RESULTS ── */
+#screen-results{background:var(--navy);align-items:center;justify-content:flex-start;padding:40px 20px 80px;overflow:hidden;position:relative}
+#screen-results::before{content:'';position:absolute;width:700px;height:700px;top:-250px;right:-180px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.1) 0%,transparent 65%);pointer-events:none}
+
+.res-inner{max-width:680px;width:100%;margin:0 auto;position:relative;z-index:1;animation:fadeUp .5s ease both}
+.res-hero{text-align:center;margin-bottom:36px}
+.ring{width:130px;height:130px;border-radius:50%;border:4px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px;background:rgba(201,168,76,.07);box-shadow:0 0 40px rgba(201,168,76,.2)}
+.ring-pct{font-family:var(--serif);font-size:2.5rem;color:var(--gold);line-height:1}
+.ring-lbl{font-family:var(--mono);font-size:.6rem;color:rgba(201,168,76,.65);letter-spacing:.12em;text-transform:uppercase}
+.res-verdict{font-family:var(--serif);font-size:1.85rem;color:#fff;margin-bottom:6px}
+.res-sub{color:rgba(255,255,255,.42);font-size:.88rem}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px}
+.sbox{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-sm);padding:16px 10px;text-align:center}
+.sval{font-family:var(--serif);font-size:1.8rem;line-height:1;margin-bottom:4px}
+.sval.g{color:#5ee898}.sval.r{color:#f08080}.sval.a{color:#f5c06a}.sval.w{color:rgba(255,255,255,.6)}
+.slbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.32)}
+
+.res-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+
+.review-section{border-top:1px solid rgba(255,255,255,.1);padding-top:28px}
+.review-section h3{font-family:var(--serif);font-size:1.2rem;color:var(--gold);margin-bottom:16px}
+.ftabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.ftab{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:40px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.45);cursor:pointer;transition:all var(--ease)}
+.ftab:hover{border-color:var(--gold);color:var(--gold)}
+.ftab.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+
+.ritem{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-sm);padding:16px 18px;margin-bottom:10px;transition:border-color var(--ease)}
+.ritem:hover{border-color:rgba(255,255,255,.14)}
+.ritem.rc{border-left:3px solid var(--green)}.ritem.rw{border-left:3px solid var(--red)}.ritem.rs{border-left:3px solid var(--amber)}
+.rmeta{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.rqn{font-family:var(--mono);font-size:.63rem;color:rgba(255,255,255,.3);letter-spacing:.08em}
+.rbadge{font-family:var(--mono);font-size:.6rem;padding:2px 8px;border-radius:40px;text-transform:uppercase;letter-spacing:.08em}
+.rbadge.c{background:var(--green-bg);color:#5ee898}.rbadge.w{background:var(--red-bg);color:#f08080}.rbadge.s{background:var(--amber-bg);color:#f5c06a}
+.rq{font-size:.87rem;color:rgba(255,255,255,.65);line-height:1.5;margin-bottom:8px;white-space:pre-line}
+.rans{font-family:var(--mono);font-size:.77rem}
+.rans .yc{color:#f08080}.rans .cc{color:#5ee898}.rans .sep{color:rgba(255,255,255,.18);margin:0 6px}
+
+/* ANIMATION */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.qcard{animation-delay:calc(var(--i,0)*35ms)}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .lcard{padding:36px 22px}
+  .cfg-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .topbar{gap:10px}
+  .topbar-title{font-size:.82rem}
+  .qcard{padding:18px 14px}
+  .opt{font-size:.84rem;padding:10px 12px}
+  .abar{flex-wrap:wrap;gap:8px}
+  .btn{font-size:.82rem;padding:10px 14px;flex:1;text-align:center}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <h1>PHY 103 — Properties of Matter</h1>
-  <p>Multiple Choice Questions · Self-Test Mode</p>
-  <div id="progress-wrap"><div id="progress-bar"></div></div>
-  <div id="progress-label">0 / 0 answered</div>
-</header>
+<!-- ═══════════════ SCREEN 1 · LANDING ═══════════════ -->
+<section id="screen-landing" class="screen active">
+  <div class="lcard">
+    <div class="lbadge">Self-Test Mode</div>
+    <h1>PHY 103<br><em>Properties of Matter</em></h1>
+    <p>100 multiple-choice questions covering fluid dynamics, thermodynamics, elasticity, surface tension, and kinetic theory.</p>
 
-<main>
-  <div class="controls">
-    <select id="num-select">
-      <option value="10">10 Questions</option>
-      <option value="20">20 Questions</option>
-      <option value="30">30 Questions</option>
-      <option value="50">50 Questions</option>
-      <option value="100" selected>All 100 Questions</option>
-    </select>
-    <select id="mode-select">
-      <option value="random">Randomise Order</option>
-      <option value="original">Original Order</option>
-    </select>
-    <button class="primary" id="start-btn">▶ Start Test</button>
-    <button id="submit-btn" style="display:none">✔ Submit All</button>
-    <button id="reset-btn" style="display:none">↺ Restart</button>
+    <div class="cfg-grid">
+      <div class="cfg-group">
+        <label>Questions</label>
+        <select id="cfg-count">
+          <option value="10">10 Questions</option>
+          <option value="20">20 Questions</option>
+          <option value="30">30 Questions</option>
+          <option value="50">50 Questions</option>
+          <option value="100" selected>All 100</option>
+        </select>
+      </div>
+      <div class="cfg-group">
+        <label>Order</label>
+        <select id="cfg-order">
+          <option value="random">Randomised</option>
+          <option value="original">Original Order</option>
+        </select>
+      </div>
+      <div class="cfg-group cfg-full">
+        <label>Feedback</label>
+        <select id="cfg-fb">
+          <option value="end">Show all answers at end</option>
+          <option value="instant">Instant feedback per question</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="timer-row" onclick="document.getElementById('cfg-timer').click()">
+      <label for="cfg-timer">⏱ Timed mode &nbsp;(1 min per 10 questions)</label>
+      <div class="toggle">
+        <input type="checkbox" id="cfg-timer">
+        <div class="ttrack"></div>
+      </div>
+    </div>
+
+    <button class="btn-start" id="btn-begin">Start Test →</button>
+    <p class="lmeta">PHY 103 · ZCP 2026 · The Academia Tutorials</p>
+  </div>
+</section>
+
+<!-- ═══════════════ SCREEN 2 · TEST ═══════════════ -->
+<section id="screen-test" class="screen">
+  <header class="topbar">
+    <div class="topbar-title">PHY 103 · <span>MCQ</span></div>
+    <div class="prog-track"><div class="prog-fill" id="pfill"></div></div>
+    <div class="tb-right">
+      <span class="stat-pill" id="stat-ans"><strong>0</strong>/0</span>
+      <div id="timer-disp">00:00</div>
+    </div>
+  </header>
+
+  <div class="test-body" id="test-body"></div>
+
+  <div class="abar" id="abar">
+    <button class="btn btn-danger btn-ghost" id="btn-quit">✕ Quit</button>
+    <button class="btn btn-gold" id="btn-submit">Submit Test</button>
   </div>
 
-  <div id="scoreboard"></div>
-  <div id="empty">Choose your settings and press <strong>Start Test</strong>.</div>
-  <div id="questions-container"></div>
-</main>
+  <button id="scroll-top" title="Back to top" aria-label="Scroll to top">↑</button>
+</section>
+
+<!-- ═══════════════ SCREEN 3 · RESULTS ═══════════════ -->
+<section id="screen-results" class="screen">
+  <div class="res-inner">
+    <div class="res-hero">
+      <div class="ring">
+        <div class="ring-pct" id="rpct">—</div>
+        <div class="ring-lbl">Score</div>
+      </div>
+      <div class="res-verdict" id="rverdict">—</div>
+      <div class="res-sub" id="rsub">—</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="sbox"><div class="sval g" id="rcorrect">—</div><div class="slbl">Correct</div></div>
+      <div class="sbox"><div class="sval r" id="rwrong">—</div><div class="slbl">Wrong</div></div>
+      <div class="sbox"><div class="sval a" id="rskipped">—</div><div class="slbl">Skipped</div></div>
+      <div class="sbox"><div class="sval w" id="rtime">—</div><div class="slbl">Time</div></div>
+    </div>
+
+    <div class="res-actions">
+      <button class="btn btn-gold" id="btn-retry-wrong">Retry Wrong Only</button>
+      <button class="btn btn-primary" id="btn-new">New Test</button>
+    </div>
+
+    <div class="review-section">
+      <h3>Question Review</h3>
+      <div class="ftabs">
+        <button class="ftab on" data-f="all">All</button>
+        <button class="ftab" data-f="wrong">Wrong</button>
+        <button class="ftab" data-f="correct">Correct</button>
+        <button class="ftab" data-f="skip">Skipped</button>
+      </div>
+      <div id="review-list"></div>
+    </div>
+  </div>
+</section>
 
 <script>
-const RAW = [
-  { n:1,  q:"A hydraulic lift has a narrow cylinder of a diameter 5cm and wide cylinder of diameter 40cm. Calculate the force that must be applied to the liquid in the small cylinder to lift a car 1950kg.", opts:["398.4kg","298.6N","456.8N","389.6N","564.9N"], ans:0 },
-  { n:2,  q:"Addition of detergent to liquid", opts:["Has no effect on surface tension","Increases surface tension","Lowers surface tension","Lightly affects surface tension"], ans:2 },
-  { n:3,  q:"One of these options is not an example of primary bonds", opts:["Hydrogen","Metallic","Ionic","Covalent","Vander Waals"], ans:4 },
-  { n:4,  q:"The ability of a material to return to its original shape after being deformed is called:", opts:["Plasticity","Viscosity","Elasticity","Ductility"], ans:2 },
-  { n:5,  q:"A small pipe has an inner radius of 4mm. A fluid with a viscosity of 4×10⁻³ Ns/m² flows through it at the rate of 10⁻⁶ m³/s. Find the pressure difference across a 2m length of pipe", opts:["80 Pa","70 Pa","60 Pa","50 Pa"], ans:0 },
-  { n:6,  q:"What minimum pressure must a pump maintain to pump water through a 2.54cm diameter pipe into an open tank 15.0m above the pump?", opts:["2.6 × 10⁶Pa","1.15 × 10⁶Pa","9.45 × 10⁶Pa","2.33 × 10⁶Pa","3.45 × 10⁶Pa"], ans:1 },
-  { n:7,  q:"In order to avoid the effect of capillarity in manometers, the minimum tube diameter used is:", opts:["4 mm","6 mm","8 mm","10 mm"], ans:1 },
-  { n:8,  q:"In an incompressible and steady 3-D flow, U=x³+Z⁶+6 and V=Y³+Z⁴. Determine the Z component of velocity that satisfies the continuity equation", opts:["W=-3x(y²+Z²)","W=3y(x²+Z²)","W=-3Z(x²+y²)","W=3(x²+y²+Z²)"], ans:2 },
-  { n:9,  q:"Which of the following statements is wrong about molecules", opts:["molecules are in constant motion","all molecules have the same size and mass","the difference between solid, liquid and gaseous states can be attributed to the relative freedom of motion of their respective molecules","matter is composed of tiny particles called molecules","None of the options"], ans:1 },
-  { n:10, q:"The potential energy of a stretched spring is:", opts:["mgh","½mv²","½kx²","kx"], ans:2 },
-  { n:11, q:"In the graph of shearing stress versus rate of shearing strain, which of the lines represents shear thickening fluid?", opts:["4","3","2","1"], ans:0 },
-  { n:12, q:"The unit of Young's Modulus is the same as that of:", opts:["Stress","Pressure","Bulk Modulus","All of the above"], ans:3 },
-  { n:13, q:"A 4kg mass is suspended from the end of a steel cable of length 2.5m and diameter 1.5mm. Calculate the elongation that occurs in the cable if the Young's modulus for steel is 2.0 × 10¹¹N/m².", opts:["3.78 × 10⁻⁴m","2.66 × 10⁻⁴m","2.77 × 10⁻⁴m","4.66 × 10⁻⁴m","5.45 × 10⁻⁴m"], ans:1 },
-  { n:14, q:"What is the total kinetic energy of a diatomic CO gas at a temperature of 873K", opts:["3.01 × 10⁻²⁰J","1.81 × 10⁻²⁰J","6.02 × 10⁻²¹J","4.22 × 10⁻²⁰J","5.59 × 10⁻²⁰J"], ans:0 },
-  { n:15, q:"The mass of oxygen molecule is 5.3 × 10⁻²⁶kg. The average velocity of the molecule in a sample of oxygen at 50°C is", opts:["502m/s","252m/s","464m/s","1500m/s","725m/s"], ans:2 },
-  { n:16, q:"If specific volume of any material is 0.000112m³/kg, then the specific gravity of that material is", opts:["8.52","8.92","8.72","8.32"], ans:1 },
-  { n:17, q:"A cowboy fires a silver bullet with a muzzle speed of 200m/s into the pine wall of a saloon. Assume that all the internal energy generated by the impact remains with the bullet. What is the temperature change of the bullet? (S.H.C. of the bullet = 128 J/kg.°C)", opts:["85.5°C","43.5°C","25.5°C","50.5°C"], ans:0 },
-  { n:18, q:"A resistance thermometer has a resistance of 10Ω at 0°C and a resistance of 14Ω at 100°C. What temperature corresponds to a resistance of 11.0Ω?", opts:["25°C","50°C","70°C","85°C"], ans:0 },
-  { n:19, q:"Which of the following are chemical changes? (i) Decaying of wood, (ii) Cutting of wood, (iii) Burning of wood, (iv) Making a hole into a piece of wood", opts:["(iii) and (iv)","(i) and (iv)","(i) and (ii)","(i) and (iii)"], ans:3 },
-  { n:20, q:"An air track supports a cart that rides on a thin cushion of air 1mm thick and 0.04m² in area. If the viscosity of air is 18×10⁻⁶ Ns/m², find the force required to move the cart at a constant speed of 0.2m/s", opts:["109×10⁻⁶ N","116×10⁻⁶ N","135×10⁻⁶ N","144×10⁻⁶ N"], ans:3 },
-  { n:21, q:"When a solid melts into a liquid, its molecules:", opts:["Stop moving","Gain enough energy to overcome the fixed lattice structure","Lose kinetic energy","Form stronger bonds"], ans:1 },
-  { n:22, q:"The equation based on the principle of conservation of mass is called", opts:["Bernoulli's Equation","Continuity Equation","Euler's Equation","Pascal's Law"], ans:1 },
-  { n:23, q:"If the angle of contact of a drop of liquid is obtuse, then", opts:["Cohesion is equal to Adhesion","Adhesion is more than Cohesion","Cohesion is more than Adhesion","Both Adhesion and Cohesion have no connection with angle of contact"], ans:2 },
-  { n:24, q:"How high will a mercury barometer stand on a day when the atmospheric pressure is 1000kPa (ρ_Hg = 13.6 × 10³ kg/m³)", opts:["760mm","754.5mm","735.3mm","728.6mm","712mm"], ans:2 },
-  { n:25, q:"The pressure inside a soap bubble of 10mm diameter above the atmosphere is (δ=0.04N/m)", opts:["16 Pa","32 Pa","64 Pa","128 Pa"], ans:1 },
-  { n:26, q:"Choose the wrong statement from the following", opts:["Small droplets of a liquid are spherical due to surface tension","Oil rises through the wick due to capillarity","In drinking cold drinks through a straw, we use the phenomenon of capillarity","None of these"], ans:2 },
-  { n:27, q:"When a force is applied to a body such that its volume changes but shape remains the same, the stress is:", opts:["Shear stress","Tensile stress","Bulk (or Hydraulic) stress","Longitudinal stress"], ans:2 },
-  { n:28, q:"According to Hooke's Law, within the elastic limit, stress is:", opts:["Inversely proportional to strain","Directly proportional to strain","Equal to strain","Independent of strain"], ans:1 },
-  { n:29, q:"If water is flowing through a pipe of diameter 1cm at 10m/s, then find its viscosity (in Pa.s) if the Reynolds number of the flow is 1000", opts:["0.1","10","100","1000"], ans:0 },
-  { n:30, q:"The pressure increase inside a soap bubble (ΔP) which has two interfaces with air, an inner and outer surface of nearly the same radius R is (γ = coefficient of surface tension)", opts:["ΔP = γ/2R","ΔP = 2γ/R","ΔP = γ/R","ΔP = 4γ/R"], ans:3 },
-  { n:31, q:"For compressible fluid, the continuity equation is", opts:["ρ₁A₁/V₁ = ρ₂A₂/V₂","ρ₁/ρ₂ = A₁/A₂ = V₁/V₂","ρ₁A₁V₁ = ρ₂A₂V₂","ρ₁+A₁+V₁ = ρ₂+A₂V₂"], ans:2 },
-  { n:32, q:"In a free vortex, the flow is", opts:["Irrotational","Incompressible","Non-viscous","Turbulent and Unsteady"], ans:0 },
-  { n:33, q:"What principle governs the working of a submarine and balloon?", opts:["Archimedes' principle","Hydrodynamic principle","Principle of floatation","Principle of Continuity"], ans:2 },
-  { n:34, q:"Shear strain is measured by the:", opts:["Change in length","Change in volume","Angle of twist or deformation (θ)","Change in density"], ans:2 },
-  { n:35, q:"Which of the following materials is transparent?", opts:["Wood","Glass","Metal","Cardboard"], ans:1 },
-  { n:36, q:"Which of the following fluids is represented by a log-log scale curve between viscosity (µ) and Shear stress (τ)?", opts:["Pseudo-plastic fluid","Newtonian fluid","Bingham-plastic fluid","Dilatant fluid"], ans:0 },
-  { n:37, q:"The average velocity of water flowing through a 10cm diameter main pipe is 3cm/s. What is the flow rate?", opts:["2.36 × 10⁻⁴m³/s","4.36 × 10⁻⁴m³/s","5.36 × 10⁻⁴m³/s","6.36 × 10⁻⁴m³/s","7.36 × 10⁻⁴m³/s"], ans:0 },
-  { n:38, q:"Which of the following formulae expresses the relationship between the pressure and absolute temperature of a gas sample whose volume is fixed", opts:["P₁T₂ = P₂T₁","P₁T₁ = P₂T₂","P₁P₂ = P₂T₁","PT = K","P₁V₁ = KT"], ans:0 },
-  { n:39, q:"A liquid rises in a capillary tube if the angle of contact is", opts:["Either acute or obtuse","Neither acute nor obtuse","Obtuse","Acute"], ans:3 },
-  { n:40, q:"The three-dimensional equation of motion based on the principle of conservation of momentum for ideal and incompressible fluid flow is given by", opts:["Euler's Equation","Bernoulli's Equation","Continuity Equation","Poiseuille's Equation"], ans:0 },
-  { n:41, q:"If one of the ends of the glass capillary tube is immersed in a liquid with stronger cohesion than adhesion, then", opts:["Liquid would rise in the capillary","Liquid can rise or fall depending on density","Liquid would remain at the same level in the capillary as free surface","Liquid would fall in the capillary"], ans:3 },
-  { n:42, q:"The pressure of a constant volume gas thermometer at the triple point of water is 16mmHg. At what temperature will its pressure be 17.6mmHg?", opts:["210.52 K","300.48 K","110.46 K","420.34 K"], ans:1 },
-  { n:43, q:"If one litre of a fluid has a mass of 7.5kg then its specific gravity is", opts:["0.75","7.5","75","750"], ans:1 },
-  { n:44, q:"Which of the following is a unit of stress?", opts:["N/m","N·m","N/m²","It has no units"], ans:2 },
-  { n:45, q:"Calculate the Reynolds number for a liquid of density 1g/cm³, viscosity 8×10⁻⁴ Pa.s flowing at 0.5m/s through a pipe of diameter 4cm", opts:["25000","2500","250","25"], ans:0 },
-  { n:46, q:"What is the primary difference between the particles of a solid and those of a gas?", opts:["Solid particles move more freely than gas particles","Solid particles are more closely packed than gas particles","Solid particles have more energy than gas particles","Solid particles are made of different elements than gas particles"], ans:1 },
-  { n:47, q:"Milk, blood and clay are examples of __________ fluid.", opts:["Newtonian fluids","Brownian","Ideal","Pseudo-plastic"], ans:3 },
-  { n:48, q:"In 1738, the relationship between fluid speed, pressure and elevation was first derived by", opts:["Emmanuel Kant","Isaac Newton","Albert Einstein","Daniel Bernoulli"], ans:3 },
-  { n:49, q:"The property of a liquid to resist flow is known as:", opts:["Surface tension","Elasticity","Capillarity","Viscosity"], ans:3 },
-  { n:50, q:"What is the maximum speed of water for streamline flow in a tube having diameter 4mm if the Reynolds number is 1000 and coefficient of viscosity for water is 0.02 poise?", opts:["100 cm/s","500 cm/s","1000 cm/s","5000 cm/s"], ans:0 },
-  { n:51, q:"Which of the following is a necessary condition for capillary action to take place in a narrow tube kept in a liquid?", opts:["Adhesive forces must be > cohesive forces","Cohesive forces must be > adhesive forces","Fluid pressure must be zero","The surface where capillary action takes place should have a thin membrane"], ans:0 },
-  { n:52, q:"Strain has the following unit:", opts:["m/s","N/m²","m","It is dimensionless"], ans:3 },
-  { n:53, q:"The relation between A and B if A is the surface tension on a liquid droplet and B is the surface tension on a hollow bubble is", opts:["B=2A","A=2B","B=4A","A=4B"], ans:1 },
-  { n:54, q:"The slope of the linear portion of a stress-strain graph represents:", opts:["Strain","Stress","Modulus of elasticity","Elastic limit"], ans:2 },
-  { n:55, q:"The reciprocal of Bulk modulus is called:", opts:["Elasticity","Compressibility","Viscosity","Rigidity"], ans:1 },
-  { n:56, q:"A 0.0500kg ingot of metal is heated to 200.0°C and then dropped into a beaker containing 0.400kg of water initially at 20.0°C. If the final equilibrium temperature of the mixed system is 22.4°C, find the specific heat of the metal.", opts:["664 J/kg.°C","453 J/kg.°C","754 J/kg.°C","223 J/kg.°C"], ans:1 },
-  { n:57, q:"The transition from streamline to turbulent motion of a fluid is described by the", opts:["Prand
+/* ═══════ QUESTION BANK ═══════ */
+const BANK=[
+  {n:1,q:"A hydraulic lift has a narrow cylinder of diameter 5cm and wide cylinder of diameter 40cm. Calculate the force that must be applied to the liquid in the small cylinder to lift a car of 1950kg.",o:["398.4 kg","298.6 N","456.8 N","389.6 N","564.9 N"],a:0},
+  {n:2,q:"Addition of detergent to liquid:",o:["Has no effect on surface tension","Increases surface tension","Lowers surface tension","Lightly affects surface tension"],a:2},
+  {n:3,q:"One of these options is NOT an example of primary bonds:",o:["Hydrogen","Metallic","Ionic","Covalent","Vander Waals"],a:4},
+  {n:4,q:"The ability of a material to return to its original shape after being deformed is called:",o:["Plasticity","Viscosity","Elasticity","Ductility"],a:2},
+  {n:5,q:"A small pipe has an inner radius of 4mm. A fluid with viscosity 4×10⁻³ Ns/m² flows through it at 10⁻⁶ m³/s. Find the pressure difference across a 2m length of pipe.",o:["80 Pa","70 Pa","60 Pa","50 Pa"],a:0},
+  {n:6,q:"What minimum pressure must a pump maintain to pump water through a 2.54cm diameter pipe into an open tank 15.0m above the pump?",o:["2.6 × 10⁶ Pa","1.15 × 10⁶ Pa","9.45 × 10⁶ Pa","2.33 × 10⁶ Pa","3.45 × 10⁶ Pa"],a:1},
+  {n:7,q:"In order to avoid the effect of capillarity in manometers, the minimum tube diameter used is:",o:["4 mm","6 mm","8 mm","10 mm"],a:1},
+  {n:8,q:"In an incompressible and steady 3-D flow, U = x³+Z⁶+6 and V = Y³+Z⁴. Determine the Z component of velocity that satisfies the continuity equation.",o:["W = −3x(y²+Z²)","W = 3y(x²+Z²)","W = −3Z(x²+y²)","W = 3(x²+y²+Z²)"],a:2},
+  {n:9,q:"Which of the following statements is WRONG about molecules?",o:["Molecules are in constant motion","All molecules have the same size and mass","The difference between solid, liquid and gaseous states can be attributed to the relative freedom of motion of their respective molecules","Matter is composed of tiny particles called molecules","None of the options"],a:1},
+  {n:10,q:"The potential energy of a stretched spring is:",o:["mgh","½mv²","½kx²","kx"],a:2},
+  {n:11,q:"In the graph of shearing stress versus rate of shearing strain, which line represents a shear thickening fluid?",o:["Line 4","Line 3","Line 2","Line 1"],a:0},
+  {n:12,q:"The unit of Young's Modulus is the same as that of:",o:["Stress only","Pressure only","Bulk Modulus only","All of the above"],a:3},
+  {n:13,q:"A 4 kg mass is suspended from a steel cable of length 2.5m and diameter 1.5mm. Calculate the elongation if Young's modulus for steel is 2.0 × 10¹¹ N/m².",o:["3.78 × 10⁻⁴ m","2.66 × 10⁻⁴ m","2.77 × 10⁻⁴ m","4.66 × 10⁻⁴ m","5.45 × 10⁻⁴ m"],a:1},
+  {n:14,q:"What is the total kinetic energy of a diatomic CO gas at 873 K?",o:["3.01 × 10⁻²⁰ J","1.81 × 10⁻²⁰ J","6.02 × 10⁻²¹ J","4.22 × 10⁻²⁰ J","5.59 × 10⁻²⁰ J"],a:0},
+  {n:15,q:"The mass of an oxygen molecule is 5.3 × 10⁻²⁶ kg. The average velocity of the molecule in a sample of oxygen at 50°C is:",o:["502 m/s","252 m/s","464 m/s","1500 m/s","725 m/s"],a:2},
+  {n:16,q:"If the specific volume of a material is 0.000112 m³/kg, its specific gravity is:",o:["8.52","8.92","8.72","8.32"],a:1},
+  {n:17,q:"A cowboy fires a silver bullet at 200 m/s into a pine wall. All internal energy from the impact stays in the bullet. What is the temperature change? (SHC = 128 J/kg·°C)",o:["85.5°C","43.5°C","25.5°C","50.5°C"],a:0},
+  {n:18,q:"A resistance thermometer has resistance 10 Ω at 0°C and 14 Ω at 100°C. What temperature corresponds to 11.0 Ω?",o:["25°C","50°C","70°C","85°C"],a:0},
+  {n:19,q:"Which of the following are chemical changes?\n(i) Decaying of wood  (ii) Cutting of wood  (iii) Burning of wood  (iv) Making a hole in wood",o:["(iii) and (iv)","(i) and (iv)","(i) and (ii)","(i) and (iii)"],a:3},
+  {n:20,q:"An air track supports a cart on a 1mm thick air cushion of area 0.04 m². Viscosity of air = 18 × 10⁻⁶ Ns/m². Find the force to move the cart at 0.2 m/s.",o:["109 × 10⁻⁶ N","116 × 10⁻⁶ N","135 × 10⁻⁶ N","144 × 10⁻⁶ N"],a:3},
+  {n:21,q:"When a solid melts into a liquid, its molecules:",o:["Stop moving","Gain enough energy to overcome the fixed lattice structure","Lose kinetic energy","Form stronger bonds"],a:1},
+  {n:22,q:"The equation based on the principle of conservation of mass is called:",o:["Bernoulli's Equation","Continuity Equation","Euler's Equation","Pascal's Law"],a:1},
+  {n:23,q:"If the angle of contact of a liquid drop is obtuse, then:",o:["Cohesion = Adhesion","Adhesion > Cohesion","Cohesion > Adhesion","Adhesion and Cohesion have no connection with angle of contact"],a:2},
+  {n:24,q:"How high will a mercury barometer stand when atmospheric pressure is 1000 kPa? (ρ_Hg = 13.6 × 10³ kg/m³)",o:["760 mm","754.5 mm","735.3 mm","728.6 mm","712 mm"],a:2},
+  {n:25,q:"The pressure inside a soap bubble of 10mm diameter above the atmosphere is (δ = 0.04 N/m):",o:["16 Pa","32 Pa","64 Pa","128 Pa"],a:1},
+  {n:26,q:"Choose the WRONG statement:",o:["Small droplets of a liquid are spherical due to surface tension","Oil rises through a wick due to capillarity","In drinking through a straw, we use capillarity","None of these"],a:2},
+  {n:27,q:"When a force applied to a body changes its volume but not its shape, the stress is:",o:["Shear stress","Tensile stress","Bulk (Hydraulic) stress","Longitudinal stress"],a:2},
+  {n:28,q:"According to Hooke's Law, within the elastic limit, stress is:",o:["Inversely proportional to strain","Directly proportional to strain","Equal to strain","Independent of strain"],a:1},
+  {n:29,q:"Water flows through a 1cm diameter pipe at 10 m/s. Find its viscosity (Pa·s) if Reynolds number = 1000.",o:["0.1","10","100","1000"],a:0},
+  {n:30,q:"The pressure increase inside a soap bubble (ΔP) with two surfaces of radius R is (γ = surface tension coefficient):",o:["ΔP = γ/2R","ΔP = 2γ/R","ΔP = γ/R","ΔP = 4γ/R"],a:3},
+  {n:31,q:"For a compressible fluid, the continuity equation is:",o:["ρ₁A₁/V₁ = ρ₂A₂/V₂","ρ₁/ρ₂ = A₁/A₂ = V₁/V₂","ρ₁A₁V₁ = ρ₂A₂V₂","ρ₁+A₁+V₁ = ρ₂+A₂V₂"],a:2},
+  {n:32,q:"In a free vortex, the flow is:",o:["Irrotational","Incompressible","Non-viscous","Turbulent and Unsteady"],a:0},
+  {n:33,q:"What principle governs the working of a submarine and a balloon?",o:["Archimedes' principle","Hydrodynamic principle","Principle of floatation","Principle of Continuity"],a:2},
+  {n:34,q:"Shear strain is measured by the:",o:["Change in length","Change in volume","Angle of twist or deformation (θ)","Change in density"],a:2},
+  {n:35,q:"Which of the following materials is transparent?",o:["Wood","Glass","Metal","Cardboard"],a:1},
+  {n:36,q:"Which fluid is represented by a log-log scale curve between viscosity (µ) and shear stress (τ)?",o:["Pseudo-plastic fluid","Newtonian fluid","Bingham-plastic fluid","Dilatant fluid"],a:0},
+  {n:37,q:"The average velocity of water flowing through a 10cm diameter pipe is 3 cm/s. What is the flow rate?",o:["2.36 × 10⁻⁴ m³/s","4.36 × 10⁻⁴ m³/s","5.36 × 10⁻⁴ m³/s","6.36 × 10⁻⁴ m³/s","7.36 × 10⁻⁴ m³/s"],a:0},
+  {n:38,q:"Which formula expresses the relationship between pressure and absolute temperature of a gas at constant volume?",o:["P₁T₂ = P₂T₁","P₁T₁ = P₂T₂","P₁P₂ = P₂T₁","PT = K","P₁V₁ = KT"],a:0},
+  {n:39,q:"A liquid rises in a capillary tube if the angle of contact is:",o:["Either acute or obtuse","Neither acute nor obtuse","Obtuse","Acute"],a:3},
+  {n:40,q:"The 3-D equation of motion based on conservation of momentum for ideal, incompressible fluid flow is:",o:["Euler's Equation","Bernoulli's Equation","Continuity Equation","Poiseuille's Equation"],a:0},
+  {n:41,q:"If a glass capillary tube is immersed in a liquid where cohesion > adhesion, then:",o:["Liquid rises in the capillary","Liquid can rise or fall depending on density","Liquid remains at the same level as the free surface","Liquid falls in the capillary"],a:3},
+  {n:42,q:"A constant-volume gas thermometer has pressure 16 mmHg at the triple point of water. At what temperature will its pressure be 17.6 mmHg?",o:["210.52 K","300.48 K","110.46 K","420.34 K"],a:1},
+  {n:43,q:"If one litre of a fluid has a mass of 7.5 kg, its specific gravity is:",o:["0.75","7.5","75","750"],a:1},
+  {n:44,q:"Which of the following is a unit of stress?",o:["N/m","N·m","N/m²","It has no units"],a:2},
+  {n:45,q:"Calculate the Reynolds number for: density = 1 g/cm³, viscosity = 8 × 10⁻⁴ Pa·s, velocity = 0.5 m/s, pipe diameter = 4 cm.",o:["25000","2500","250","25"],a:0},
+  {n:46,q:"What is the primary difference between particles of a solid and those of a gas?",o:["Solid particles move more freely","Solid particles are more closely packed","Solid particles have more energy","Solid particles are made of different elements"],a:1},
+  {n:47,q:"Milk, blood, and clay are examples of __________ fluid.",o:["Newtonian","Brownian","Ideal","Pseudo-plastic"],a:3},
+  {n:48,q:"In 1738, the relationship between fluid speed, pressure and elevation was first derived by:",o:["Emmanuel Kant","Isaac Newton","Albert Einstein","Daniel Bernoulli"],a:3},
+  {n:49,q:"The property of a liquid to resist flow is known as:",o:["Surface tension","Elasticity","Capillarity","Viscosity"],a:3},
+  {n:50,q:"Maximum speed of water for streamline flow in a 4mm diameter tube if Re = 1000 and viscosity = 0.02 poise:",o:["100 cm/s","500 cm/s","1000 cm/s","5000 cm/s"],a:0},
+  {n:51,q:"Necessary condition for capillary action in a narrow tube:",o:["Adhesive forces > cohesive forces","Cohesive forces > adhesive forces","Fluid pressure must be zero","Surface must have a thin membrane"],a:0},
+  {n:52,q:"Strain has the following unit:",o:["m/s","N/m²","m","It is dimensionless"],a:3},
+  {n:53,q:"A = surface tension on a liquid droplet; B = surface tension on a hollow bubble. Their relation is:",o:["B = 2A","A = 2B","B = 4A","A = 4B"],a:1},
+  {n:54,q:"The slope of the linear portion of a stress-strain graph represents:",o:["Strain","Stress","Modulus of elasticity","Elastic limit"],a:2},
+  {n:55,q:"The reciprocal of Bulk modulus is called:",o:["Elasticity","Compressibility","Viscosity","Rigidity"],a:1},
+  {n:56,q:"A 0.05 kg metal ingot heated to 200°C is dropped into 0.4 kg of water at 20°C. Final temperature = 22.4°C. Find the specific heat of the metal.",o:["664 J/kg·°C","453 J/kg·°C","754 J/kg·°C","223 J/kg·°C"],a:1},
+  {n:57,q:"The transition from streamline to turbulent flow is described by the:",o:["Prandtl number","Knudsen number","Grashof number","Reynolds number"],a:3},
+  {n:58,q:"Water enters a garden hose (diameter 1.6cm) at 3 m/s. Find the exit velocity when a 0.5cm nozzle is attached.",o:["20.6 m/s","30.6 m/s","40.6 m/s","50.6 m/s"],a:1},
+  {n:59,q:"The deforming force per unit area is called:",o:["Strain","Stress","Pressure","Modulus"],a:1},
+  {n:60,q:"For which process will the velocity of gas molecules increase?",o:["Isothermal expansion","Adiabatic compression","Isothermal compression","Adiabatic expansion","Isobaric change"],a:1},
+  {n:61,q:"For ∇·V = 0 to be valid, which is a necessary condition?",o:["Unsteady and Irrotational","Steady and incompressible","Viscous and turbulent","Laminar and Non-viscous"],a:1},
+  {n:62,q:"The temperature of a normal healthy person is:",o:["250°C","35°C","37°C","45°C"],a:2},
+  {n:63,q:"Increase in pressure at the outer edge of a drum of radius R rotating at ω rad/s, filled with liquid of density ρ:",o:["ρω²R²","ρω²R/2","2ρω²R²","ρω²R²/2"],a:3},
+  {n:64,q:"0.1 m³ of water flows through a pipe of area 0.25 m² which reduces to 0.1 m². Velocity in the reduced pipe:",o:["0.5 m/s","1.5 m/s","1.0 m/s","2.0 m/s"],a:2},
+  {n:65,q:"Temperature of a substance is a measure of the __________ of its constituent particles.",o:["Average potential energy","Total kinetic energy","Average kinetic energy","Total energy"],a:2},
+  {n:66,q:"Which is TRUE for real fluids?\n(I) Is incompressible  (II) Has surface tension  (III) Is viscous",o:["Both I and II","Both I and III","Both II and III","All I, II and III"],a:2},
+  {n:67,q:"The product of Avogadro's number and Boltzmann's constant gives:",o:["1.38 × 10⁻²³ J/K","6.02 × 10²⁶ moles","3 × 10⁸ m/s","1.69 × 10⁻¹⁹ C","8.314 J/K/mol"],a:4},
+  {n:68,q:"A vortex flow is:",o:["Both rotational and irrotational","Steady and turbulent","Viscous and compressible","Non-viscous and drag flow"],a:0},
+  {n:69,q:"The change of state from a gas directly to a solid is called:",o:["Sublimation","Deposition","Condensation","Freezing"],a:1},
+  {n:70,q:"The differential equation of fluid in a curved path relates the radial pressure gradient to:",o:["Angular Momentum","Normal acceleration","Level differences in liquid surface","Tangential velocity"],a:1},
+  {n:71,q:"A body's temperature increases by 40°C. The increase in Fahrenheit is:",o:["72°F","70°F","68°F","75°F"],a:0},
+  {n:72,q:"The pressure at the bottom of a vessel filled with liquid does NOT depend on:",o:["Height of the liquid","Density of the liquid","Surface area of the liquid","Acceleration due to gravity","Volume of the liquid"],a:2},
+  {n:73,q:"What type of bonding is expected from two hydrogen atoms forming H₂?",o:["Dipole bond","Covalent bond","Metallic bond","Hydrogen bond","Electrovalent bond"],a:1},
+  {n:74,q:"The random movement of pollen grains suspended in water is an example of:",o:["Diffusion","Osmosis","Brownian motion","Surface tension"],a:2},
+  {n:75,q:"Four capillary tubes (A, B, C, D) with decreasing radius. Identify the increasing order of heights a liquid of fixed density will reach.",o:["ABCD","DCBA","ADCB","CBDA"],a:0},
+  {n:76,q:"Which statement is correct for capillary action? (θ = angle of contact)",o:["θ>90° → rise; θ<90° → fall","θ<90° → rise; θ>90° → fall","90°<θ<180° → rise","90°>θ>180° → fall"],a:1},
+  {n:77,q:"At a point where pipe diameter is 30cm, water flows at 1.5 m/s. Speed at a point where diameter is 1cm:",o:["2.35 × 10³ m/s","3.35 × 10³ m/s","1.35 × 10³ m/s","4.35 × 10³ m/s","5.35 × 10³ m/s"],a:3},
+  {n:78,q:"The spherical shape of a small liquid drop is due to:",o:["Viscosity","Atmospheric pressure","Gravity","Surface tension"],a:3},
+  {n:79,q:"Water rises in plant fibres due to:",o:["Osmosis","Fluid pressure","Viscosity","Capillarity"],a:3},
+  {n:80,q:"Which state of matter has a definite shape and size?",o:["Solids","Liquids","Gases","Vapour"],a:0},
+  {n:81,q:"Dilatant fluids and pseudo-plastic fluids belong to which category?",o:["Newtonian fluids","Non-Newtonian fluids","Time-dependent Newtonian fluids","Time-independent Non-Newtonian fluids"],a:3},
+  {n:82,q:"Pipe A (diameter 2.54cm) is welded to pipe B (diameter 0.6cm). Velocity in A = 0.16 m/s. Find velocity in B.",o:["2.65 m/s","6.35 m/s","2.87 m/s","7.35 m/s","9.35 m/s"],a:2},
+  {n:83,q:"At what temperature do Celsius and Fahrenheit thermometers record the same numerical value?",o:["−35°","−40°","45°","50°","55°"],a:1},
+  {n:84,q:"Mass needed to produce an extension of 1.8mm in a steel wire of length 3.5m and diameter 1.0mm. (Y = 2.0 × 10¹¹ N/m²)",o:["4.35 kg","5.78 kg","8.24 kg","6.89 kg","9.73 kg"],a:0},
+  {n:85,q:"The elastic limit is the point beyond which a material:",o:["Becomes a liquid","Does not return to its original shape","Becomes stronger","Conducts electricity"],a:1},
+  {n:86,q:"How does surface tension typically change with an increase in temperature?",o:["It increases","It decreases","It remains constant","It becomes zero"],a:1},
+  {n:87,q:"Oil (SG = 0.7) flows in a 1m diameter tube at 1200 litres/second. What is the flow velocity?",o:["2.8/π m/s","3.8/π m/s","4.8/π m/s","5.8/π m/s"],a:2},
+  {n:88,q:"Which statement is TRUE?\n(i) At absolute zero, molecules have maximum K.E.\n(ii) Isothermal process obeys Boyle's law\n(iii) RMS speed < mean speed\n(iv) Mean free path = average displacement in random walk",o:["i only","ii only","iii only","iv only","None of the above"],a:1},
+  {n:89,q:"A swimmer (body surface area 1.6 m²) lies 3m below the water surface. Force due to water pressure on his body:",o:["3.62 × 10⁴ N/m²","4.15 × 10⁴ N/m²","8.45 × 10⁴ N/m²","4.70 × 10⁴ N/m²","6.45 × 10⁴ N/m²"],a:3},
+  {n:90,q:"The phenomenon of a liquid rising or falling in a narrow tube is called:",o:["Viscosity","Surface tension","Capillarity","Adhesion"],a:2},
+  {n:91,q:"The motion of air mass in a tornado is:",o:["Forced vortex motion","Free vortex motion","Free vortex at centre, forced vortex outside","Forced vortex at centre, free vortex outside"],a:3},
+  {n:92,q:"Which state of matter has the highest intermolecular forces of attraction?",o:["Gases","Liquids","Solids","Plasma"],a:2},
+  {n:93,q:"Raindrops are spherical because of:",o:["Viscosity","Air resistance","Surface tension forces","Atmospheric pressure"],a:2},
+  {n:94,q:"The tangential velocity of a water element in a free vortex is:",o:["Directly proportional to distance from the centre","Inversely proportional to distance from the centre","Directly proportional to distance² from the centre","Inversely proportional to distance² from the centre"],a:1},
+  {n:95,q:"The operation of a hydraulic press is based on:",o:["Boyle's law","Archimedes' Principle","Pascal's law","Buoyancy Effect","Bernoulli's Equation"],a:2},
+  {n:96,q:"Sodium atom has a nuclear radius of 5.02 Fermi. What is the radius of Iron?",o:["2.06 Fermi","6.75 Fermi","7.82 Fermi","12.22 Fermi","15.19 Fermi"],a:2},
+  {n:97,q:"Poiseuille's law has medical applications EXCEPT:",o:["Flow of blood in arteries and veins","Control of temperature in warm-blooded animals","Selection of needles for hypodermic syringes","Blood clotting","None of the options"],a:1},
+  {n:98,q:"Characteristics of fluid flow include the following EXCEPT:",o:["Rotationality","Compressibility","Compactibility","Viscosity","Steadiness"],a:2},
+  {n:99,q:"Diffusion of gases at rates inversely proportional to the square root of gas densities is a law proposed by:",o:["Avogadro","Gay Lussac","Zeroth","Graham","Dalton"],a:3},
+  {n:100,q:"What is the angle of contact for water rising in a capillary tube made of pure glass?",o:["0°","90°","180°","360°"],a:0},
+];
+
+const K=['A','B','C','D','E'];
+
+/* ═══════ STATE ═══════ */
+let S={active:[],answers:{},feedback:'end',timerOn:false,timeLimit:0,startTime:null,elapsed:0,timerInt:null,done:false};
+
+/* ═══════ HELPERS ═══════ */
+const $=id=>document.getElementById(id);
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+const fmt=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+
+function screen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ═══════ START ═══════ */
+$('btn-begin').addEventListener('click',()=>{
+  const n=parseInt($('cfg-count').value);
+  const order=$('cfg-order').value;
+  S={
+    active:(order==='random'?shuffle(BANK):[...BANK]).slice(0,n),
+    answers:{},
+    feedback:$('cfg-fb').value,
+    timerOn:$('cfg-timer').checked,
+    timeLimit:$('cfg-timer').checked?Math.ceil(n/10)*60:0,
+    startTime:Date.now(),elapsed:0,timerInt:null,done:false
+  };
+  buildTest();
+  screen('screen-test');
+  if(S.timerOn)startTimer();
+});
+
+/* ═══════ BUILD ═══════ */
+function buildTest(){
+  const body=$('test-body');body.innerHTML='';
+  S.active.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='qcard';d.id=`qc${i}`;d.style.setProperty('--i',i);
+    d.innerHTML=`
+      <div class="qhdr">
+        <span class="qnum">Q${i+1} / ${S.active.length}</span>
+        <span class="qicon" id="qi${i}"></span>
+      </div>
+      <div class="qtext">${q.q}</div>
+      <div class="opts" id="op${i}">
+        ${q.o.map((o,j)=>`<button class="opt" id="o${i}${j}" onclick="pick(${i},${j})"><span class="okey">${K[j]}</span><span>${o}</span></button>`).join('')}
+      </div>
+      <div class="qfb" id="fb${i}"></div>`;
+    body.appendChild(d);
+  });
+  upProg();
+}
+
+/* ═══════ PICK ═══════ */
+function pick(qi,oi){
+  if(S.done)return;
+  const prev=S.answers[qi];
+  if(prev!==undefined)$(`o${qi}${prev}`)?.classList.remove('sel');
+  S.answers[qi]=oi;
+  $(`o${qi}${oi}`)?.classList.add('sel');
+  if(S.feedback==='instant')revealCard(qi);
+  upProg();
+}
+
+/* ═══════ REVEAL CARD ═══════ */
+function revealCard(i){
+  const q=S.active[i],ch=S.answers[i];
+  const card=$(`qc${i}`),fb=$(`fb${i}`),ic=$(`qi${i}`);
+  q.o.forEach((_,j)=>{const b=$(`o${i}${j}`);if(b)b.disabled=true;});
+  if(ch===undefined){
+    card.classList.add('ss');ic.textContent='—';
+    $(`o${i}${q.a}`)?.classList.add('ox');
+    fb.className='qfb s show';fb.textContent=`⚠ Skipped — correct answer: ${K[q.a]}`;
+  }else if(ch===q.a){
+    card.classList.add('sc');ic.textContent='✓';
+    $(`o${i}${ch}`)?.classList.replace('sel','oc');
+    fb.className='qfb c show';fb.textContent='✓ Correct!';
+  }else{
+    card.classList.add('sw');ic.textContent='✗';
+    $(`o${i}${ch}`)?.classList.replace('sel','ow');
+    $(`o${i}${q.a}`)?.classList.add('ox');
+    fb.className='qfb w show';fb.textContent=`✗ Wrong — correct: ${K[q.a]}`;
+  }
+}
+
+/* ═══════ PROGRESS ═══════ */
+function upProg(){
+  const t=S.active.length,d=Object.keys(S.answers).length;
+  $('pfill').style.width=(t?(d/t*100):0)+'%';
+  $('stat-ans').innerHTML=`<strong>${d}</strong>/${t}`;
+}
+
+/* ═══════ TIMER ═══════ */
+function startTimer(){
+  const td=$('timer-disp');td.style.display='block';
+  let rem=S.timeLimit;td.textContent=fmt(rem);
+  S.timerInt=setInterval(()=>{
+    rem--;S.elapsed++;
+    td.textContent=fmt(rem);
+    if(rem<=60)td.classList.add('warn');
+    if(rem<=0){clearInterval(S.timerInt);submitTest(true);}
+  },1000);
+}
+function stopTimer(){
+  if(S.timerInt){clearInterval(S.timerInt);S.timerInt=null;}
+  if(!S.elapsed)S.elapsed=Math.round((Date.now()-S.startTime)/1000);
+}
+
+/* ═══════ SUBMIT ═══════ */
+function submitTest(auto=false){
+  if(S.done)return;
+  if(!auto){
+    const skip=S.active.length-Object.keys(S.answers).length;
+    if(skip>0&&!confirm(`${skip} question${skip>1?'s':''} unanswered. Submit anyway?`))return;
+  }
+  S.done=true;stopTimer();
+  S.active.forEach((_,i)=>revealCard(i));
+  $('abar').innerHTML=`<button class="btn btn-gold" onclick="showResults()">View Results →</button>`;
+  setTimeout(showResults,700);
+}
+
+/* ═══════ RESULTS ═══════ */
+function showResults(){
+  const t=S.active.length;
+  let c=0,w=0,sk=0;
+  S.active.forEach((q,i)=>{
+    const ch=S.answers[i];
+    if(ch===undefined)sk++;else if(ch===q.a)c++;else w++;
+  });
+  const pct=Math.round(c/t*100);
+  const elapsed=S.elapsed||Math.round((Date.now()-S.startTime)/1000);
+  const [verd,sub]=pct>=70?['Excellent Work','You are well prepared for the exam.']:pct>=55?['Good Effort','Review wrong answers and try again.']:pct>=40?['Needs Work','Focus on weak areas and revisit.']:['Keep Studying','Go back to the fundamentals first.'];
+  $('rpct').textContent=pct+'%';$('rverdict').textContent=verd;$('rsub').textContent=sub;
+  $('rcorrect').textContent=c;$('rwrong').textContent=w;$('rskipped').textContent=sk;$('rtime').textContent=fmt(elapsed);
+  if(w===0)$('btn-retry-wrong').style.display='none';else $('btn-retry-wrong').style.display='';
+  buildReview('all');
+  screen('screen-results');
+}
+
+/* ═══════ REVIEW ═══════ */
+function buildReview(f){
+  const list=$('review-list');list.innerHTML='';
+  S.active.forEach((q,i)=>{
+    const ch=S.answers[i];
+    const type=ch===undefined?'skip':ch===q.a?'correct':'wrong';
+    if(f!=='all'&&f!==type)return;
+    const d=document.createElement('div');
+    d.className=`ritem r${type.charAt(0)}`;
+    const bl=type==='correct'?'c':type==='wrong'?'w':'s';
+    const bt=type==='correct'?'Correct':type==='wrong'?'Wrong':'Skipped';
+    let ans='';
+    if(type==='correct')ans=`<span class="cc">✓ ${K[q.a]}: ${q.o[q.a]}</span>`;
+    else if(type==='wrong')ans=`<span class="yc">✗ Your answer: ${K[ch]}: ${q.o[ch]}</span><span class="sep">|</span><span class="cc">✓ Correct: ${K[q.a]}: ${q.o[q.a]}</span>`;
+    else ans=`<span class="cc">✓ Correct: ${K[q.a]}: ${q.o[q.a]}</span>`;
+    d.innerHTML=`<div class="rmeta"><span class="rqn">Q${i+1}</span><span class="rbadge ${bl}">${bt}</span></div><div class="rq">${q.q}</div><div class="rans">${ans}</div>`;
+    list.appendChild(d);
+  });
+  if(!list.children.length)list.innerHTML=`<p style="color:rgba(255,255,255,.3);font-size:.85rem;padding:20px 0">No questions in this category.</p>`;
+}
+
+document.querySelectorAll('.ftab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');buildReview(t.dataset.f);
+  });
+});
+
+/* ═══════ RETRY / NEW ═══════ */
+$('btn-new').addEventListener('click',()=>screen('screen-landing'));
+
+$('btn-retry-wrong').addEventListener('click',()=>{
+  const pool=S.active.filter((q,i)=>{const ch=S.answers[i];return ch!==undefined&&ch!==q.a;});
+  if(!pool.length)return;
+  S={active:shuffle(pool),answers:{},feedback:S.feedback,timerOn:false,timeLimit:0,startTime:Date.now(),elapsed:0,timerInt:null,done:false};
+  buildTest();screen('screen-test');
+  $('abar').innerHTML=`<button class="btn btn-danger btn-ghost" id="btn-quit">✕ Quit</button><button class="btn btn-gold" id="btn-submit">Submit Test</button>`;
+  wireBar();
+});
+
+/* ═══════ ACTION BAR ═══════ */
+function wireBar(){
+  $('btn-submit')?.addEventListener('click',()=>submitTest());
+  $('btn-quit')?.addEventListener('click',()=>{
+    if(confirm('Quit? Progress will be lost.')){stopTimer();screen('screen-landing');}
+  });
+}
+wireBar();
+
+/* ═══════ SCROLL TOP ═══════ */
+window.addEventListener('scroll',()=>$('scroll-top').classList.toggle('show',scrollY>400));
+$('scroll-top').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>
