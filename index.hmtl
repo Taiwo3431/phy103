@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHY 103 — Properties of Matter | MCQ Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0A1F44;
+    --gold: #C9A84C;
+    --gold-light: #e8c870;
+    --bg: #05101f;
+    --surface: #0d2040;
+    --surface2: #112650;
+    --text: #d8e8ff;
+    --text-muted: #7a9abf;
+    --correct: #2ecc71;
+    --wrong: #e74c3c;
+    --correct-bg: rgba(46,204,113,0.12);
+    --wrong-bg: rgba(231,76,60,0.12);
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, #071830 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 28px 24px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  }
+  header h1 {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  header p {
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    margin-top: 4px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  #progress-wrap {
+    background: var(--surface);
+    height: 6px;
+    border-radius: 3px;
+    margin: 14px auto 0;
+    max-width: 500px;
+    overflow: hidden;
+  }
+  #progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    transition: width 0.4s ease;
+    border-radius: 3px;
+  }
+  #progress-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    text-align: center;
+  }
+
+  /* ── LAYOUT ── */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 30px 16px 20px;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .controls select, .controls button {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    padding: 9px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--gold);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .controls button:hover, .controls select:hover {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .controls button.primary {
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 700;
+    border-color: var(--gold);
+  }
+  .controls button.primary:hover {
+    background: var(--gold-light);
+  }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    transition: border-color 0.3s;
+    position: relative;
+  }
+  .q-card.answered-correct {
+    border-color: var(--correct);
+    background: var(--correct-bg);
+  }
+  .q-card.answered-wrong {
+    border-color: var(--wrong);
+    background: var(--wrong-bg);
+  }
+  .q-card.skipped {
+    border-color: #888;
+    opacity: 0.7;
+  }
+
+  .q-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .q-text {
+    font-size: 0.97rem;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  /* ── OPTIONS ── */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .opt-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 11px 14px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: left;
+    width: 100%;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.1);
+  }
+  .opt-btn .opt-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    min-width: 18px;
+    padding-top: 1px;
+  }
+  .opt-btn.selected {
+    border-color: #5b9bd5;
+    background: rgba(91,155,213,0.15);
+  }
+  .opt-btn.correct {
+    border-color: var(--correct) !important;
+    background: rgba(46,204,113,0.18) !important;
+    color: #a8f0c0;
+  }
+  .opt-btn.wrong {
+    border-color: var(--wrong) !important;
+    background: rgba(231,76,60,0.18) !important;
+    color: #f0b0a8;
+  }
+  .opt-btn.reveal-correct {
+    border-color: var(--correct) !important;
+    background: rgba(46,204,113,0.08) !important;
+  }
+  .opt-btn:disabled {
+    cursor: default;
+  }
+
+  /* ── FEEDBACK BADGE ── */
+  .feedback {
+    display: none;
+    margin-top: 12px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: 'Space Mono', monospace;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: rgba(46,204,113,0.15); color: #5ee89e; }
+  .feedback.wrong   { background: rgba(231,76,60,0.15);  color: #f08080; }
+
+  /* ── RESULT BADGE ── */
+  .result-icon {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 1.2rem;
+  }
+
+  /* ── SCOREBOARD ── */
+  #scoreboard {
+    background: var(--surface);
+    border: 2px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 28px 28px;
+    margin-bottom: 30px;
+    text-align: center;
+    display: none;
+  }
+  #scoreboard h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  #scoreboard .score-big {
+    font-family: 'Space Mono', monospace;
+    font-size: 3rem;
+    color: var(--text);
+    margin: 6px 0;
+  }
+  #scoreboard .score-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .score-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .score-item { text-align: center; }
+  .score-item .val {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.4rem;
+  }
+  .score-item .lbl {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .val.green { color: var(--correct); }
+  .val.red   { color: var(--wrong); }
+  .val.grey  { color: var(--text-muted); }
+
+  /* ── EMPTY / LOADING ── */
+  #empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 60px 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 540px) {
+    .q-card { padding: 16px 14px; }
+    .opt-btn { font-size: 0.84rem; padding: 10px 11px; }
+    header h1 { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>PHY 103 — Properties of Matter</h1>
+  <p>Multiple Choice Questions · Self-Test Mode</p>
+  <div id="progress-wrap"><div id="progress-bar"></div></div>
+  <div id="progress-label">0 / 0 answered</div>
+</header>
+
+<main>
+  <div class="controls">
+    <select id="num-select">
+      <option value="10">10 Questions</option>
+      <option value="20">20 Questions</option>
+      <option value="30">30 Questions</option>
+      <option value="50">50 Questions</option>
+      <option value="100" selected>All 100 Questions</option>
+    </select>
+    <select id="mode-select">
+      <option value="random">Randomise Order</option>
+      <option value="original">Original Order</option>
+    </select>
+    <button class="primary" id="start-btn">▶ Start Test</button>
+    <button id="submit-btn" style="display:none">✔ Submit All</button>
+    <button id="reset-btn" style="display:none">↺ Restart</button>
+  </div>
+
+  <div id="scoreboard"></div>
+  <div id="empty">Choose your settings and press <strong>Start Test</strong>.</div>
+  <div id="questions-container"></div>
+</main>
+
+<script>
+const RAW = [
+  { n:1,  q:"A hydraulic lift has a narrow cylinder of a diameter 5cm and wide cylinder of diameter 40cm. Calculate the force that must be applied to the liquid in the small cylinder to lift a car 1950kg.", opts:["398.4kg","298.6N","456.8N","389.6N","564.9N"], ans:0 },
+  { n:2,  q:"Addition of detergent to liquid", opts:["Has no effect on surface tension","Increases surface tension","Lowers surface tension","Lightly affects surface tension"], ans:2 },
+  { n:3,  q:"One of these options is not an example of primary bonds", opts:["Hydrogen","Metallic","Ionic","Covalent","Vander Waals"], ans:4 },
+  { n:4,  q:"The ability of a material to return to its original shape after being deformed is called:", opts:["Plasticity","Viscosity","Elasticity","Ductility"], ans:2 },
+  { n:5,  q:"A small pipe has an inner radius of 4mm. A fluid with a viscosity of 4×10⁻³ Ns/m² flows through it at the rate of 10⁻⁶ m³/s. Find the pressure difference across a 2m length of pipe", opts:["80 Pa","70 Pa","60 Pa","50 Pa"], ans:0 },
+  { n:6,  q:"What minimum pressure must a pump maintain to pump water through a 2.54cm diameter pipe into an open tank 15.0m above the pump?", opts:["2.6 × 10⁶Pa","1.15 × 10⁶Pa","9.45 × 10⁶Pa","2.33 × 10⁶Pa","3.45 × 10⁶Pa"], ans:1 },
+  { n:7,  q:"In order to avoid the effect of capillarity in manometers, the minimum tube diameter used is:", opts:["4 mm","6 mm","8 mm","10 mm"], ans:1 },
+  { n:8,  q:"In an incompressible and steady 3-D flow, U=x³+Z⁶+6 and V=Y³+Z⁴. Determine the Z component of velocity that satisfies the continuity equation", opts:["W=-3x(y²+Z²)","W=3y(x²+Z²)","W=-3Z(x²+y²)","W=3(x²+y²+Z²)"], ans:2 },
+  { n:9,  q:"Which of the following statements is wrong about molecules", opts:["molecules are in constant motion","all molecules have the same size and mass","the difference between solid, liquid and gaseous states can be attributed to the relative freedom of motion of their respective molecules","matter is composed of tiny particles called molecules","None of the options"], ans:1 },
+  { n:10, q:"The potential energy of a stretched spring is:", opts:["mgh","½mv²","½kx²","kx"], ans:2 },
+  { n:11, q:"In the graph of shearing stress versus rate of shearing strain, which of the lines represents shear thickening fluid?", opts:["4","3","2","1"], ans:0 },
+  { n:12, q:"The unit of Young's Modulus is the same as that of:", opts:["Stress","Pressure","Bulk Modulus","All of the above"], ans:3 },
+  { n:13, q:"A 4kg mass is suspended from the end of a steel cable of length 2.5m and diameter 1.5mm. Calculate the elongation that occurs in the cable if the Young's modulus for steel is 2.0 × 10¹¹N/m².", opts:["3.78 × 10⁻⁴m","2.66 × 10⁻⁴m","2.77 × 10⁻⁴m","4.66 × 10⁻⁴m","5.45 × 10⁻⁴m"], ans:1 },
+  { n:14, q:"What is the total kinetic energy of a diatomic CO gas at a temperature of 873K", opts:["3.01 × 10⁻²⁰J","1.81 × 10⁻²⁰J","6.02 × 10⁻²¹J","4.22 × 10⁻²⁰J","5.59 × 10⁻²⁰J"], ans:0 },
+  { n:15, q:"The mass of oxygen molecule is 5.3 × 10⁻²⁶kg. The average velocity of the molecule in a sample of oxygen at 50°C is", opts:["502m/s","252m/s","464m/s","1500m/s","725m/s"], ans:2 },
+  { n:16, q:"If specific volume of any material is 0.000112m³/kg, then the specific gravity of that material is", opts:["8.52","8.92","8.72","8.32"], ans:1 },
+  { n:17, q:"A cowboy fires a silver bullet with a muzzle speed of 200m/s into the pine wall of a saloon. Assume that all the internal energy generated by the impact remains with the bullet. What is the temperature change of the bullet? (S.H.C. of the bullet = 128 J/kg.°C)", opts:["85.5°C","43.5°C","25.5°C","50.5°C"], ans:0 },
+  { n:18, q:"A resistance thermometer has a resistance of 10Ω at 0°C and a resistance of 14Ω at 100°C. What temperature corresponds to a resistance of 11.0Ω?", opts:["25°C","50°C","70°C","85°C"], ans:0 },
+  { n:19, q:"Which of the following are chemical changes? (i) Decaying of wood, (ii) Cutting of wood, (iii) Burning of wood, (iv) Making a hole into a piece of wood", opts:["(iii) and (iv)","(i) and (iv)","(i) and (ii)","(i) and (iii)"], ans:3 },
+  { n:20, q:"An air track supports a cart that rides on a thin cushion of air 1mm thick and 0.04m² in area. If the viscosity of air is 18×10⁻⁶ Ns/m², find the force required to move the cart at a constant speed of 0.2m/s", opts:["109×10⁻⁶ N","116×10⁻⁶ N","135×10⁻⁶ N","144×10⁻⁶ N"], ans:3 },
+  { n:21, q:"When a solid melts into a liquid, its molecules:", opts:["Stop moving","Gain enough energy to overcome the fixed lattice structure","Lose kinetic energy","Form stronger bonds"], ans:1 },
+  { n:22, q:"The equation based on the principle of conservation of mass is called", opts:["Bernoulli's Equation","Continuity Equation","Euler's Equation","Pascal's Law"], ans:1 },
+  { n:23, q:"If the angle of contact of a drop of liquid is obtuse, then", opts:["Cohesion is equal to Adhesion","Adhesion is more than Cohesion","Cohesion is more than Adhesion","Both Adhesion and Cohesion have no connection with angle of contact"], ans:2 },
+  { n:24, q:"How high will a mercury barometer stand on a day when the atmospheric pressure is 1000kPa (ρ_Hg = 13.6 × 10³ kg/m³)", opts:["760mm","754.5mm","735.3mm","728.6mm","712mm"], ans:2 },
+  { n:25, q:"The pressure inside a soap bubble of 10mm diameter above the atmosphere is (δ=0.04N/m)", opts:["16 Pa","32 Pa","64 Pa","128 Pa"], ans:1 },
+  { n:26, q:"Choose the wrong statement from the following", opts:["Small droplets of a liquid are spherical due to surface tension","Oil rises through the wick due to capillarity","In drinking cold drinks through a straw, we use the phenomenon of capillarity","None of these"], ans:2 },
+  { n:27, q:"When a force is applied to a body such that its volume changes but shape remains the same, the stress is:", opts:["Shear stress","Tensile stress","Bulk (or Hydraulic) stress","Longitudinal stress"], ans:2 },
+  { n:28, q:"According to Hooke's Law, within the elastic limit, stress is:", opts:["Inversely proportional to strain","Directly proportional to strain","Equal to strain","Independent of strain"], ans:1 },
+  { n:29, q:"If water is flowing through a pipe of diameter 1cm at 10m/s, then find its viscosity (in Pa.s) if the Reynolds number of the flow is 1000", opts:["0.1","10","100","1000"], ans:0 },
+  { n:30, q:"The pressure increase inside a soap bubble (ΔP) which has two interfaces with air, an inner and outer surface of nearly the same radius R is (γ = coefficient of surface tension)", opts:["ΔP = γ/2R","ΔP = 2γ/R","ΔP = γ/R","ΔP = 4γ/R"], ans:3 },
+  { n:31, q:"For compressible fluid, the continuity equation is", opts:["ρ₁A₁/V₁ = ρ₂A₂/V₂","ρ₁/ρ₂ = A₁/A₂ = V₁/V₂","ρ₁A₁V₁ = ρ₂A₂V₂","ρ₁+A₁+V₁ = ρ₂+A₂V₂"], ans:2 },
+  { n:32, q:"In a free vortex, the flow is", opts:["Irrotational","Incompressible","Non-viscous","Turbulent and Unsteady"], ans:0 },
+  { n:33, q:"What principle governs the working of a submarine and balloon?", opts:["Archimedes' principle","Hydrodynamic principle","Principle of floatation","Principle of Continuity"], ans:2 },
+  { n:34, q:"Shear strain is measured by the:", opts:["Change in length","Change in volume","Angle of twist or deformation (θ)","Change in density"], ans:2 },
+  { n:35, q:"Which of the following materials is transparent?", opts:["Wood","Glass","Metal","Cardboard"], ans:1 },
+  { n:36, q:"Which of the following fluids is represented by a log-log scale curve between viscosity (µ) and Shear stress (τ)?", opts:["Pseudo-plastic fluid","Newtonian fluid","Bingham-plastic fluid","Dilatant fluid"], ans:0 },
+  { n:37, q:"The average velocity of water flowing through a 10cm diameter main pipe is 3cm/s. What is the flow rate?", opts:["2.36 × 10⁻⁴m³/s","4.36 × 10⁻⁴m³/s","5.36 × 10⁻⁴m³/s","6.36 × 10⁻⁴m³/s","7.36 × 10⁻⁴m³/s"], ans:0 },
+  { n:38, q:"Which of the following formulae expresses the relationship between the pressure and absolute temperature of a gas sample whose volume is fixed", opts:["P₁T₂ = P₂T₁","P₁T₁ = P₂T₂","P₁P₂ = P₂T₁","PT = K","P₁V₁ = KT"], ans:0 },
+  { n:39, q:"A liquid rises in a capillary tube if the angle of contact is", opts:["Either acute or obtuse","Neither acute nor obtuse","Obtuse","Acute"], ans:3 },
+  { n:40, q:"The three-dimensional equation of motion based on the principle of conservation of momentum for ideal and incompressible fluid flow is given by", opts:["Euler's Equation","Bernoulli's Equation","Continuity Equation","Poiseuille's Equation"], ans:0 },
+  { n:41, q:"If one of the ends of the glass capillary tube is immersed in a liquid with stronger cohesion than adhesion, then", opts:["Liquid would rise in the capillary","Liquid can rise or fall depending on density","Liquid would remain at the same level in the capillary as free surface","Liquid would fall in the capillary"], ans:3 },
+  { n:42, q:"The pressure of a constant volume gas thermometer at the triple point of water is 16mmHg. At what temperature will its pressure be 17.6mmHg?", opts:["210.52 K","300.48 K","110.46 K","420.34 K"], ans:1 },
+  { n:43, q:"If one litre of a fluid has a mass of 7.5kg then its specific gravity is", opts:["0.75","7.5","75","750"], ans:1 },
+  { n:44, q:"Which of the following is a unit of stress?", opts:["N/m","N·m","N/m²","It has no units"], ans:2 },
+  { n:45, q:"Calculate the Reynolds number for a liquid of density 1g/cm³, viscosity 8×10⁻⁴ Pa.s flowing at 0.5m/s through a pipe of diameter 4cm", opts:["25000","2500","250","25"], ans:0 },
+  { n:46, q:"What is the primary difference between the particles of a solid and those of a gas?", opts:["Solid particles move more freely than gas particles","Solid particles are more closely packed than gas particles","Solid particles have more energy than gas particles","Solid particles are made of different elements than gas particles"], ans:1 },
+  { n:47, q:"Milk, blood and clay are examples of __________ fluid.", opts:["Newtonian fluids","Brownian","Ideal","Pseudo-plastic"], ans:3 },
+  { n:48, q:"In 1738, the relationship between fluid speed, pressure and elevation was first derived by", opts:["Emmanuel Kant","Isaac Newton","Albert Einstein","Daniel Bernoulli"], ans:3 },
+  { n:49, q:"The property of a liquid to resist flow is known as:", opts:["Surface tension","Elasticity","Capillarity","Viscosity"], ans:3 },
+  { n:50, q:"What is the maximum speed of water for streamline flow in a tube having diameter 4mm if the Reynolds number is 1000 and coefficient of viscosity for water is 0.02 poise?", opts:["100 cm/s","500 cm/s","1000 cm/s","5000 cm/s"], ans:0 },
+  { n:51, q:"Which of the following is a necessary condition for capillary action to take place in a narrow tube kept in a liquid?", opts:["Adhesive forces must be > cohesive forces","Cohesive forces must be > adhesive forces","Fluid pressure must be zero","The surface where capillary action takes place should have a thin membrane"], ans:0 },
+  { n:52, q:"Strain has the following unit:", opts:["m/s","N/m²","m","It is dimensionless"], ans:3 },
+  { n:53, q:"The relation between A and B if A is the surface tension on a liquid droplet and B is the surface tension on a hollow bubble is", opts:["B=2A","A=2B","B=4A","A=4B"], ans:1 },
+  { n:54, q:"The slope of the linear portion of a stress-strain graph represents:", opts:["Strain","Stress","Modulus of elasticity","Elastic limit"], ans:2 },
+  { n:55, q:"The reciprocal of Bulk modulus is called:", opts:["Elasticity","Compressibility","Viscosity","Rigidity"], ans:1 },
+  { n:56, q:"A 0.0500kg ingot of metal is heated to 200.0°C and then dropped into a beaker containing 0.400kg of water initially at 20.0°C. If the final equilibrium temperature of the mixed system is 22.4°C, find the specific heat of the metal.", opts:["664 J/kg.°C","453 J/kg.°C","754 J/kg.°C","223 J/kg.°C"], ans:1 },
+  { n:57, q:"The transition from streamline to turbulent motion of a fluid is described by the", opts:["Prand
